@@ -1,4 +1,4 @@
-def ytdownload(url):
+def ytdownload(url, language = "en"):
     from pprint import pprint
     import requests
     import youtube_dl
@@ -10,9 +10,11 @@ def ytdownload(url):
 
     os.system('pip install -U youtube-dl --user')
     
-    
-    ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(title)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'forcetitle':'true', 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writesubtitles':True, 'writeautomaticsub': True})
-
+    if language == "en":
+        ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(uploader)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writeautomaticsub': True, 'writesubtitles': True})
+    else:
+        ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(uploader)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writeautomaticsub': True, 'writesubtitles': True, 'subtitleslangs': language})
+        
     with ydl:
         result = ydl.download([url])
 
