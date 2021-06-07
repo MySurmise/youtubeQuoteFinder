@@ -27,8 +27,11 @@ def second_convert(timestamp, delay_in_ms = 0):
     seconds = float(seconds) 
     return seconds + 60*minutes + 3600*hours + (float(delay_in_ms)/1000)
 
-def video_subtitler(url = None, subtitles_of_video_no = None, language = "en")-> "folder":
-    print(url) #WHHHHHHYY DOES THIS PRINT NONE WHEN I GIVE A URL???
+def video_subtitler(url = None, subtitles_of_video_no = None, language = "en"):
+    language = "en"
+    subtitles_of_video_no = -1
+
+    print(url) 
 
     if url:
         ytdownload(url, language)
@@ -36,10 +39,18 @@ def video_subtitler(url = None, subtitles_of_video_no = None, language = "en")->
         videoNo = subtitles_of_video_no
     else:
         videoNo = len(os.listdir('downloads')) -1
-    
-    folder = 'downloads/{0}/'.format(natsorted(os.listdir('downloads'))[videoNo])
-    pathToSubtitleFile = folder + find_subtitles_file(folder) 
 
+    folder = 'downloads/{0}/'.format(natsorted(os.listdir('downloads'))[videoNo])
+    print(folder)
+    print('downloads/{0}/'.format(natsorted(os.listdir('downloads'))[videoNo]))
+    print('downloads/{0}/'.format(natsorted(os.listdir('downloads'))[videoNo]))
+    print(natsorted(os.listdir('downloads')))
+    print([videoNo])
+    print(natsorted(os.listdir('downloads'))[videoNo])
+    try:
+        pathToSubtitleFile = folder + find_subtitles_file(folder) 
+    except TypeError as e:
+        raise Exception("Couldn't find folder with subtitles file. Folder: ", folder, "Subtitles File:",  find_subtitles_file(folder) , "Error:", e,  "Did it download the file? Are there subtitles on the video?")
     autoGenerateMode = False
 
     with open(pathToSubtitleFile, "r", encoding='utf-8') as file:
@@ -81,7 +92,10 @@ def video_subtitler(url = None, subtitles_of_video_no = None, language = "en")->
                         timeend = caption[1].replace(">", "")
                     except:
                         #print("Didn't find timestamp in caption", caption, "in", line)
-                        timeend = last_stamp_end
+                        try:
+                            timeend = last_stamp_end
+                        except:
+                            timeend = first_stamp_end
                     if captionLines:
                         captionLines.append({'timestart': captionLines[-1]['timeend'], 'timeend': timeend, 'text': captiontext})
                     else:
@@ -107,4 +121,4 @@ def video_subtitler(url = None, subtitles_of_video_no = None, language = "en")->
             filehandle.write('%s\n' % caption)
     
     return folder
-video_subtitler()
+#video_subtitler("https://www.youtube.com/watch?v=1O3ghiyirvU")

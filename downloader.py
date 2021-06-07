@@ -11,7 +11,7 @@ def ytdownload(url, language = "en"):
     os.system('pip install -U youtube-dl --user')
     
     if language == "en":
-        ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(uploader)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writeautomaticsub': True, 'writesubtitles': True})
+        ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(uploader)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writeautomaticsub': True, 'writesubtitles': True}) # , 'http_chunk_size':'15M'
     else:
         ydl = youtube_dl.YoutubeDL({'outtmpl': 'downloads/{0} - %(uploader)s/%(title)s.%(ext)s'.format(len(os.listdir('downloads'))), 'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4', 'writeautomaticsub': True, 'writesubtitles': True, 'subtitleslangs': language})
         
